@@ -38,10 +38,7 @@ def view(stdscr, pattern, it, n_alive, alive="o", dead=" "):
     # Render the current pattern
     for x in range(pattern.shape[1]):
         for y in range(pattern.shape[0]):
-            if pattern[x, y]:
-                stdscr.addstr(y + 1, x + 1, alive)
-            else:
-                stdscr.addstr(y + 1, x + 1, dead)
+            stdscr.addstr(y + 1, x + 1, alive if pattern[x, y] else dead)
 
     stdscr.addstr(height + 1, 1, "Epoch: {}".format(it))
     stdscr.addstr(height + 2, 1, "Alive: {}".format(n_alive))
