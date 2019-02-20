@@ -32,15 +32,19 @@ def model(pattern):
     return new_pattern
 
 
-def view(stdscr, pattern):
+def view(stdscr, pattern, it, n_alive, alive="o", dead=" "):
     width, height = pattern.shape
     stdscr.border()
+    # Render the current pattern
     for x in range(pattern.shape[1]):
         for y in range(pattern.shape[0]):
             if pattern[x, y]:
-                stdscr.addstr(y + 1, x + 1, "+")
+                stdscr.addstr(y + 1, x + 1, alive)
             else:
-                stdscr.addstr(y + 1, x + 1, " ")
+                stdscr.addstr(y + 1, x + 1, dead)
+
+    stdscr.addstr(height - 1, 1, "Epoch: {}".format(it))
+    stdscr.addstr(height, 1, "Alive: {}".format(n_alive))
     stdscr.refresh()
 
 
@@ -51,6 +55,7 @@ def app(stdscr, pattern, frame_delay=0.1):
     # Resize window to the size of the pattern (+ border)
     curses.resizeterm(pattern.shape[1] + 2, pattern.shape[0] + 2)
 
+    i = 0
     while True:
         # Check if we should quit
         c = stdscr.getch()
@@ -58,16 +63,16 @@ def app(stdscr, pattern, frame_delay=0.1):
             break
 
         # Render the current pattern
-        view(stdscr, pattern)
+        view(stdscr, pattern, it=i, n_alive=pattern.sum())
 
         # Step generation
         pattern = model(pattern)
 
         # Arbitrary framerate throttling
         time.sleep(frame_delay)
+        i += 1
 
 
 if __name__ == "__main__":
     pattern = np.random.choice([False, True], size=(25, 25))
-    # model(pattern)
     curses.wrapper(app, pattern, 0.1)
