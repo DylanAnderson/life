@@ -41,6 +41,7 @@ def view(stdscr, pattern, it, n_alive, alive="o", dead=" "):
             stdscr.addstr(y + 1, x + 1, alive if pattern[x, y] else dead)
 
     stdscr.addstr(height + 1, 1, "Epoch: {}".format(it))
+    # TODO this bugs out if n_alive decreases by an order of magnitude (need to clear line)
     stdscr.addstr(height + 2, 1, "Alive: {}".format(n_alive))
     stdscr.refresh()
 
