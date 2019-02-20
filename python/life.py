@@ -8,7 +8,7 @@ def cell(neighborhood):
     if neighborhood[1, 1]:  # cell is currently alive
         if n_alive < 3:  # Rule 1
             return False
-        elif n_alive < 4:  # Rule 2
+        elif n_alive < 5:  # Rule 2
             return True
         else:  # Rule 3
             return False
@@ -26,7 +26,6 @@ def model(pattern):
     4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction
     """
 
-    # TODO we don't have a model, just sample random patterns
     neighborhood = (3, 3)
     # View neighborhoods using this crazy example:
     # https://stackoverflow.com/questions/43086557/convolve2d-just-by-using-numpy
