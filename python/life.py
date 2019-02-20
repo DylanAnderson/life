@@ -3,6 +3,21 @@ import numpy as np
 import curses
 
 
+def cell(neighborhood):
+    n_alive = neighborhood.sum()
+    if neighborhood[1, 1]:  # cell is currently alive
+        if n_alive < 3:  # Rule 1
+            return False
+        elif n_alive < 4:  # Rule 2
+            return True
+        else:  # Rule 3
+            return False
+    elif n_alive == 3:  # Rule 4
+        return True
+    else:
+        return False
+
+
 def model(pattern):
     """Rules of the game:
     1. Any live cell with fewer than 2 live neighbors dies, as if by underpopulation.
@@ -20,19 +35,7 @@ def model(pattern):
     new_pattern = np.zeros_like(pattern)
     for i in range(s[2]):
         for j in range(s[3]):
-            cell = neighborhoods[..., i, j]
-            n_alive = cell.sum()
-            if cell[1, 1]:  # cell is currently alive
-                if n_alive < 3:  # Rule 1
-                    new_pattern[i + 1, j + 1] = False
-                elif n_alive < 4:  # Rule 2
-                    new_pattern[i + 1, j + 1] = True
-                else:  # Rule 3
-                    new_pattern[i + 1, j + 1] = False
-            elif n_alive == 3:  # Rule 4
-                new_pattern[i + 1, j + 1] = True
-            else:
-                new_pattern[i + 1, j + 1] = False
+            new_pattern[i + 1, j + 1] = cell(neighborhoods[..., i, j])
     return new_pattern
 
 
