@@ -43,8 +43,8 @@ def view(stdscr, pattern, it, n_alive, alive="o", dead=" "):
             else:
                 stdscr.addstr(y + 1, x + 1, dead)
 
-    stdscr.addstr(height - 1, 1, "Epoch: {}".format(it))
-    stdscr.addstr(height, 1, "Alive: {}".format(n_alive))
+    stdscr.addstr(height + 1, 1, "Epoch: {}".format(it))
+    stdscr.addstr(height + 2, 1, "Alive: {}".format(n_alive))
     stdscr.refresh()
 
 
@@ -53,7 +53,7 @@ def app(stdscr, pattern, frame_delay=0.1):
     stdscr.nodelay(True)
     stdscr.clear()
     # Resize window to the size of the pattern (+ border)
-    curses.resizeterm(pattern.shape[1] + 2, pattern.shape[0] + 2)
+    curses.resizeterm(pattern.shape[1] + 4, pattern.shape[0] + 2)
 
     i = 0
     while True:
