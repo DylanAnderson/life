@@ -33,19 +33,23 @@ def model(pattern):
 
 
 def view(stdscr, pattern):
+    width, height = pattern.shape
+    stdscr.border()
     for x in range(pattern.shape[1]):
         for y in range(pattern.shape[0]):
             if pattern[x, y]:
-                stdscr.addstr(y, x, "+")
+                stdscr.addstr(y + 1, x + 1, "+")
             else:
-                stdscr.addstr(y, x, " ")
+                stdscr.addstr(y + 1, x + 1, " ")
+    stdscr.refresh()
 
 
 def app(stdscr, pattern, frame_delay=0.1):
-    # TODO change from window to pad, in case the window is too small to render the field
     # waiting for user input is non-blocking
     stdscr.nodelay(True)
     stdscr.clear()
+    # Resize window to the size of the pattern (+ border)
+    curses.resizeterm(pattern.shape[1] + 2, pattern.shape[0] + 2)
 
     while True:
         # Check if we should quit
@@ -58,7 +62,6 @@ def app(stdscr, pattern, frame_delay=0.1):
 
         # Step generation
         pattern = model(pattern)
-        stdscr.refresh()
 
         # Arbitrary framerate throttling
         time.sleep(frame_delay)
