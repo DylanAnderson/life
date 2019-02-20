@@ -36,8 +36,8 @@ def view(stdscr, pattern, it, n_alive, alive="o", dead=" "):
     width, height = pattern.shape
     stdscr.border()
     # Render the current pattern
-    for x in range(pattern.shape[1]):
-        for y in range(pattern.shape[0]):
+    for x in range(pattern.shape[0]):
+        for y in range(pattern.shape[1]):
             stdscr.addstr(y + 1, x + 1, alive if pattern[x, y] else dead)
 
     stdscr.addstr(height + 1, 1, "Epoch: {}".format(it))
@@ -72,5 +72,5 @@ def app(stdscr, pattern, frame_delay=0.1):
 
 
 if __name__ == "__main__":
-    pattern = np.random.choice([False, True], size=(25, 25))
+    pattern = np.random.choice([False, True], size=(50, 25))
     curses.wrapper(app, pattern, 0.1)
