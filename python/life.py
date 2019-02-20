@@ -5,17 +5,11 @@ import curses
 
 def cell(neighborhood):
     n_alive = neighborhood.sum()
-    if neighborhood[1, 1]:  # cell is currently alive
-        if n_alive < 3:  # Rule 1
-            return False
-        elif n_alive < 5:  # Rule 2
-            return True
-        else:  # Rule 3
-            return False
-    elif n_alive == 3:  # Rule 4
+    if n_alive == 3:
         return True
-    else:
-        return False
+    elif neighborhood[1, 1] and n_alive == 4:
+        return True
+    return False
 
 
 def model(pattern):
