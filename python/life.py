@@ -75,5 +75,20 @@ def app(stdscr, pattern, frame_delay=0.1):
 
 
 if __name__ == "__main__":
-    pattern = np.random.choice([False, True], size=(50, 25))
-    curses.wrapper(app, pattern, 0.1)
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Conway's game of life")
+    parser.add_argument('--width', metavar='width', type=int, default=25,
+                        help='width of the simulation')
+    parser.add_argument('--height', metavar='height', type=int, default=0,
+                        help='height of the simulation')
+    parser.add_argument('--frame-delay', type=float, default=0.1,
+                        help='delay (seconds) between frames of the simulation')
+    args = parser.parse_args()
+    # Default to a square
+    height = args.width if args.height == 0 else args.height
+
+    # Create a random initial pattern
+    pattern = np.random.choice([False, True], size=(args.width, height))
+    # Run the game
+    curses.wrapper(app, pattern, args.frame_delay)
